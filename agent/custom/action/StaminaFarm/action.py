@@ -1,8 +1,9 @@
-"""胡迪尼资源本的局部控制与预算核对；菜单和场景流转由 Pipeline 负责。"""
+"""资源本的局部控制与预算核对；菜单和场景流转由 Pipeline 负责。"""
 
 import json
 import time
 from pathlib import Path
+from datetime import date
 from uuid import uuid4
 
 import cv2
@@ -12,13 +13,9 @@ from maa.custom_action import CustomAction
 from utils.logger import logger
 from utils.maafocus import PrintT
 from .accounting import FarmBudget, parse_balance
+from .catalog import STAGES, resolve_stage
 
 _state = None
-_STAGES = {
-    "character_exp": ("合订本", 0),
-    "weapon_exp": ("万花筒", 1),
-    "currency": ("硬币记", 2),
-}
 
 
 def require(job):
@@ -101,6 +98,8 @@ def save_state(event, image=None):
     )
     data = {
         "stage": _state["stage"],
+        "selection": _state["selection"],
+        "schedule_date": _state["schedule_date"],
         "difficulty": _state["difficulty"],
         "fighter_slot": _state["fighter_slot"],
         "events": _state["events"],
@@ -115,10 +114,16 @@ def save_state(event, image=None):
 def reset(context, params):
     global _state
     _state = None
+    # MaaFramework 对 custom_action_param 整体替换；attach 的独立键会合并。
+    # GUI 多个选项放在 attach，避免最后一个站位选项覆盖资源种类和预算。
+    node = context.get_node_data("StaminaFarmEntrance") or {}
+    params = {**(node.get("attach") or {}), **params}
     budget = FarmBudget(params.get("budget", 40))
-    stage = params.get("stage", "character_exp")
-    if stage not in _STAGES:
-        raise ValueError("不支持的资源本")
+    selection = params.get("stage", "character_exp")
+    # 日期只负责星期轮换；不会建立定时器，也不自动补跑错过的日期。
+    day = date.today()
+    stage = resolve_stage(selection, day)
+    config = STAGES[stage]
     difficulty = params.get("difficulty", 6)
     slot = params.get("fighter_slot", 1)
     if type(difficulty) is not int or not 1 <= difficulty <= 6:
@@ -133,25 +138,69 @@ def reset(context, params):
     _state = {
         "budget": budget,
         "stage": stage,
+        "selection": selection,
+        "schedule_date": day.isoformat(),
         "difficulty": difficulty,
         "fighter_slot": slot,
         "directory": directory,
         "events": [],
     }
-    name, index = _STAGES[stage]
+    name, index = config.name, config.index
+    row = config.guide_row
     overrides = {
+        "StaminaFarmCategory": {
+            "recognition": {
+                "param": {
+                    "expected": [config.category],
+                    "roi": [140 + config.category_index * 158, 78, 165, 65],
+                }
+            },
+            "next": ["StaminaFarmGuideScroll" if index >= 4 else "StaminaFarmGuideGo"],
+        },
+        "StaminaFarmGuideScroll": {
+            "recognition": {
+                "param": {
+                    "expected": [
+                        next(
+                            s.name
+                            for s in STAGES.values()
+                            if s.category == config.category and s.index == 0
+                        )
+                    ],
+                }
+            },
+        },
         "StaminaFarmGuideGo": {
             "recognition": {
-                "param": {"expected": [name], "roi": [530, 170 + index * 104, 210, 80]}
+                "param": {"expected": [name], "roi": [530, 170 + row * 104, 260, 80]}
             },
-            "action": {"param": {"target": [1110, 187 + index * 104, 115, 44]}},
+            "action": {"param": {"target": [1110, 187 + row * 104, 115, 44]}},
+        },
+        "StaminaFarmMapTitle": {
+            "recognition": {"param": {"expected": [config.entrance]}}
+        },
+        "StaminaFarmEntrancePrompt": {
+            "recognition": {
+                "param": {
+                    "expected": [config.entrance],
+                    # 日间截图中，入口小字的“兔”会稳定被 OCR 识别为“免”。
+                    "replace": (
+                        [["^免子洞$", "兔子洞"]] if config.entrance == "兔子洞" else []
+                    ),
+                }
+            }
         },
         "StaminaFarmSelectStage": {
             "recognition": {
-                "param": {"expected": [name], "roi": [10, 120 + index * 80, 160, 40]}
+                "param": {
+                    "expected": [config.menu_name],
+                    "roi": [10, 120 + index * 80, 195, 40],
+                }
             }
         },
-        "StaminaFarmStageTitle": {"recognition": {"param": {"expected": [name]}}},
+        "StaminaFarmStageTitle": {
+            "recognition": {"param": {"expected": [config.menu_name]}}
+        },
         "StaminaFarmDifficulty": {
             "action": {"param": {"target": [35 + (difficulty - 1) * 60, 640, 30, 30]}}
         },
@@ -181,7 +230,7 @@ def approach_entrance(context):
             raise RuntimeError("入口未出现在预期距离内，停止移动")
         press(context, 87, 0.3)
         moved += 0.3
-    raise TimeoutError("未找到胡迪尼入口交互，停止移动")
+    raise TimeoutError("未找到资源本入口交互，停止移动")
 
 
 def enter(context):
@@ -246,10 +295,19 @@ def combat(context):
 def approach_reward(context):
     deadline = time.monotonic() + 35
     missing_since = None
+    prompt_since = None
     while time.monotonic() < deadline:
         image = capture(context)
         if recognize(context, "StaminaFarmRewardPrompt", image):
-            return
+            # 最后一击/受击位移尚未结束时提示可能短暂出现，立即 F 会被动画吞掉。
+            # 连续观察提示，不在其短暂消失后盲目重复交互。
+            prompt_since = prompt_since or time.monotonic()
+            if time.monotonic() - prompt_since >= 0.6:
+                save_state("reward_ready", image)
+                return
+            time.sleep(0.1)
+            continue
+        prompt_since = None
         marker = recognize(context, "StaminaFarmRewardMarker", image)
         if not marker:
             missing_since = missing_since or time.monotonic()
@@ -259,12 +317,23 @@ def approach_reward(context):
             continue
         missing_since = None
         center = marker.box.x + marker.box.w / 2
-        if center > 760:
-            press(context, 68, 0.25)
+        # 标记落到脚下/屏幕底部时目标可能已在身后，继续 W 会越走越远。
+        if center > 1090 or center < 190:
+            # 屏幕边缘的方向标记可能指向背后；先转视角再根据新截图移动。
+            require(
+                context.tasker.controller.post_relative_move(
+                    80 if center > 1090 else -80, 0
+                )
+            )
+            time.sleep(0.1)
+        elif marker.box.y > 560:
+            press(context, 83, 0.18)
+        elif center > 760:
+            press(context, 68, 0.18)
         elif center < 520:
-            press(context, 65, 0.25)
+            press(context, 65, 0.18)
         else:
-            press(context, 87, 0.35)
+            press(context, 87, 0.18 if marker.box.y > 450 else 0.3)
     raise TimeoutError("未到达奖励交互位置")
 
 

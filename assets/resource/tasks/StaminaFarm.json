@@ -23,19 +23,26 @@
         "StaminaFarmStage": {
             "type": "select",
             "label": "$task_stamina_farm_stage",
-            "default_case": "character_exp",
+            "default_case": "weekday",
             "cases": [
+                {
+                    "name": "weekday",
+                    "label": "$task_stamina_farm_weekday",
+                    "pipeline_override": {
+                        "StaminaFarmEntrance": {
+                            "attach": {
+                                "stage": "weekday"
+                            }
+                        }
+                    }
+                },
                 {
                     "name": "character_exp",
                     "label": "$task_stamina_farm_character_exp",
                     "pipeline_override": {
                         "StaminaFarmEntrance": {
-                            "action": {
-                                "param": {
-                                    "custom_action_param": {
-                                        "stage": "character_exp"
-                                    }
-                                }
+                            "attach": {
+                                "stage": "character_exp"
                             }
                         }
                     }
@@ -45,12 +52,8 @@
                     "label": "$task_stamina_farm_weapon_exp",
                     "pipeline_override": {
                         "StaminaFarmEntrance": {
-                            "action": {
-                                "param": {
-                                    "custom_action_param": {
-                                        "stage": "weapon_exp"
-                                    }
-                                }
+                            "attach": {
+                                "stage": "weapon_exp"
                             }
                         }
                     }
@@ -60,12 +63,184 @@
                     "label": "$task_stamina_farm_currency",
                     "pipeline_override": {
                         "StaminaFarmEntrance": {
-                            "action": {
-                                "param": {
-                                    "custom_action_param": {
-                                        "stage": "currency"
-                                    }
-                                }
+                            "attach": {
+                                "stage": "currency"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "ability_pigeon",
+                    "label": "$task_stamina_farm_ability_pigeon",
+                    "pipeline_override": {
+                        "StaminaFarmEntrance": {
+                            "attach": {
+                                "stage": "ability_pigeon"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "ability_cards",
+                    "label": "$task_stamina_farm_ability_cards",
+                    "pipeline_override": {
+                        "StaminaFarmEntrance": {
+                            "attach": {
+                                "stage": "ability_cards"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "ability_party",
+                    "label": "$task_stamina_farm_ability_party",
+                    "pipeline_override": {
+                        "StaminaFarmEntrance": {
+                            "attach": {
+                                "stage": "ability_party"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "ability_telepathy",
+                    "label": "$task_stamina_farm_ability_telepathy",
+                    "pipeline_override": {
+                        "StaminaFarmEntrance": {
+                            "attach": {
+                                "stage": "ability_telepathy"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "ability_escape",
+                    "label": "$task_stamina_farm_ability_escape",
+                    "pipeline_override": {
+                        "StaminaFarmEntrance": {
+                            "attach": {
+                                "stage": "ability_escape"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "arc_apple",
+                    "label": "$task_stamina_farm_arc_apple",
+                    "pipeline_override": {
+                        "StaminaFarmEntrance": {
+                            "attach": {
+                                "stage": "arc_apple"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "arc_spiral",
+                    "label": "$task_stamina_farm_arc_spiral",
+                    "pipeline_override": {
+                        "StaminaFarmEntrance": {
+                            "attach": {
+                                "stage": "arc_spiral"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "arc_dream",
+                    "label": "$task_stamina_farm_arc_dream",
+                    "pipeline_override": {
+                        "StaminaFarmEntrance": {
+                            "attach": {
+                                "stage": "arc_dream"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "arc_dessert",
+                    "label": "$task_stamina_farm_arc_dessert",
+                    "pipeline_override": {
+                        "StaminaFarmEntrance": {
+                            "attach": {
+                                "stage": "arc_dessert"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "arc_drama",
+                    "label": "$task_stamina_farm_arc_drama",
+                    "pipeline_override": {
+                        "StaminaFarmEntrance": {
+                            "attach": {
+                                "stage": "arc_drama"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "kongmu_clock",
+                    "label": "$task_stamina_farm_kongmu_clock",
+                    "pipeline_override": {
+                        "StaminaFarmEntrance": {
+                            "attach": {
+                                "stage": "kongmu_clock"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "kongmu_sculpture",
+                    "label": "$task_stamina_farm_kongmu_sculpture",
+                    "pipeline_override": {
+                        "StaminaFarmEntrance": {
+                            "attach": {
+                                "stage": "kongmu_sculpture"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "kongmu_loom",
+                    "label": "$task_stamina_farm_kongmu_loom",
+                    "pipeline_override": {
+                        "StaminaFarmEntrance": {
+                            "attach": {
+                                "stage": "kongmu_loom"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "kongmu_carrot",
+                    "label": "$task_stamina_farm_kongmu_carrot",
+                    "pipeline_override": {
+                        "StaminaFarmEntrance": {
+                            "attach": {
+                                "stage": "kongmu_carrot"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "kongmu_mind",
+                    "label": "$task_stamina_farm_kongmu_mind",
+                    "pipeline_override": {
+                        "StaminaFarmEntrance": {
+                            "attach": {
+                                "stage": "kongmu_mind"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "kongmu_rail",
+                    "label": "$task_stamina_farm_kongmu_rail",
+                    "pipeline_override": {
+                        "StaminaFarmEntrance": {
+                            "attach": {
+                                "stage": "kongmu_rail"
                             }
                         }
                     }
@@ -86,12 +261,8 @@
             ],
             "pipeline_override": {
                 "StaminaFarmEntrance": {
-                    "action": {
-                        "param": {
-                            "custom_action_param": {
-                                "budget": "{budget}"
-                            }
-                        }
+                    "attach": {
+                        "budget": "{budget}"
                     }
                 }
             }
@@ -106,12 +277,8 @@
                     "label": "1",
                     "pipeline_override": {
                         "StaminaFarmEntrance": {
-                            "action": {
-                                "param": {
-                                    "custom_action_param": {
-                                        "difficulty": 1
-                                    }
-                                }
+                            "attach": {
+                                "difficulty": 1
                             }
                         }
                     }
@@ -121,12 +288,8 @@
                     "label": "2",
                     "pipeline_override": {
                         "StaminaFarmEntrance": {
-                            "action": {
-                                "param": {
-                                    "custom_action_param": {
-                                        "difficulty": 2
-                                    }
-                                }
+                            "attach": {
+                                "difficulty": 2
                             }
                         }
                     }
@@ -136,12 +299,8 @@
                     "label": "3",
                     "pipeline_override": {
                         "StaminaFarmEntrance": {
-                            "action": {
-                                "param": {
-                                    "custom_action_param": {
-                                        "difficulty": 3
-                                    }
-                                }
+                            "attach": {
+                                "difficulty": 3
                             }
                         }
                     }
@@ -151,12 +310,8 @@
                     "label": "4",
                     "pipeline_override": {
                         "StaminaFarmEntrance": {
-                            "action": {
-                                "param": {
-                                    "custom_action_param": {
-                                        "difficulty": 4
-                                    }
-                                }
+                            "attach": {
+                                "difficulty": 4
                             }
                         }
                     }
@@ -166,12 +321,8 @@
                     "label": "5",
                     "pipeline_override": {
                         "StaminaFarmEntrance": {
-                            "action": {
-                                "param": {
-                                    "custom_action_param": {
-                                        "difficulty": 5
-                                    }
-                                }
+                            "attach": {
+                                "difficulty": 5
                             }
                         }
                     }
@@ -181,12 +332,8 @@
                     "label": "6",
                     "pipeline_override": {
                         "StaminaFarmEntrance": {
-                            "action": {
-                                "param": {
-                                    "custom_action_param": {
-                                        "difficulty": 6
-                                    }
-                                }
+                            "attach": {
+                                "difficulty": 6
                             }
                         }
                     }
@@ -203,12 +350,8 @@
                     "label": "1",
                     "pipeline_override": {
                         "StaminaFarmEntrance": {
-                            "action": {
-                                "param": {
-                                    "custom_action_param": {
-                                        "fighter_slot": 1
-                                    }
-                                }
+                            "attach": {
+                                "fighter_slot": 1
                             }
                         }
                     }
@@ -218,12 +361,8 @@
                     "label": "2",
                     "pipeline_override": {
                         "StaminaFarmEntrance": {
-                            "action": {
-                                "param": {
-                                    "custom_action_param": {
-                                        "fighter_slot": 2
-                                    }
-                                }
+                            "attach": {
+                                "fighter_slot": 2
                             }
                         }
                     }
@@ -233,12 +372,8 @@
                     "label": "3",
                     "pipeline_override": {
                         "StaminaFarmEntrance": {
-                            "action": {
-                                "param": {
-                                    "custom_action_param": {
-                                        "fighter_slot": 3
-                                    }
-                                }
+                            "attach": {
+                                "fighter_slot": 3
                             }
                         }
                     }
@@ -248,12 +383,8 @@
                     "label": "4",
                     "pipeline_override": {
                         "StaminaFarmEntrance": {
-                            "action": {
-                                "param": {
-                                    "custom_action_param": {
-                                        "fighter_slot": 4
-                                    }
-                                }
+                            "attach": {
+                                "fighter_slot": 4
                             }
                         }
                     }

@@ -8,11 +8,7 @@
             "param": {
                 "custom_action": "stamina_farm",
                 "custom_action_param": {
-                    "operation": "reset",
-                    "stage": "character_exp",
-                    "budget": 40,
-                    "difficulty": 6,
-                    "fighter_slot": 1
+                    "operation": "reset"
                 }
             }
         },
@@ -21,7 +17,13 @@
         "post_delay": 0,
         "next": [
             "StaminaFarmOpenGuide"
-        ]
+        ],
+        "attach": {
+            "stage": "weekday",
+            "budget": 40,
+            "difficulty": 6,
+            "fighter_slot": 1
+        }
     },
     "StaminaFarmOpenGuide": {
         "recognition": {
@@ -559,15 +561,21 @@
                     "StaminaFarm/RewardMarker0.png",
                     "StaminaFarm/RewardMarker1.png",
                     "StaminaFarm/RewardMarker2.png",
-                    "StaminaFarm/RewardMarker3.png"
+                    "StaminaFarm/RewardMarker3.png",
+                    "StaminaFarm/RewardMarker4.png",
+                    "StaminaFarm/RewardMarker5.png",
+                    "StaminaFarm/RewardMarker6.png",
+                    "StaminaFarm/RewardMarker7.png",
+                    "StaminaFarm/RewardMarker8.png"
                 ],
                 "roi": [
-                    130,
-                    160,
-                    1020,
-                    430
+                    100,
+                    150,
+                    1080,
+                    505
                 ],
-                "threshold": 0.72
+                "threshold": 0.72,
+                "green_mask": true
             }
         },
         "action": {
@@ -749,9 +757,9 @@
                 ],
                 "roi": [
                     773,
-                    551,
+                    560,
                     89,
-                    45
+                    30
                 ],
                 "threshold": 0.65
             }
@@ -792,7 +800,8 @@
             "param": {
                 "all_of": [
                     "StaminaFarmResultTitle",
-                    "StaminaFarmRepeatButton"
+                    "StaminaFarmRepeatButton",
+                    "StaminaFarmResultBalance"
                 ]
             }
         },
@@ -900,5 +909,56 @@
         "pre_delay": 0,
         "post_delay": 0,
         "next": []
+    },
+    "StaminaFarmGuideScroll": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "小心鸽子"
+                ],
+                "roi": [
+                    530,
+                    170,
+                    260,
+                    80
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "Swipe",
+            "param": {
+                "begin": [
+                    1040,
+                    515,
+                    1,
+                    1
+                ],
+                "end": [
+                    1040,
+                    175,
+                    1,
+                    1
+                ],
+                "duration": 450
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                530,
+                165,
+                725,
+                400
+            ],
+            "timeout": 3000
+        },
+        "next": [
+            "StaminaFarmGuideGo"
+        ]
     }
 }

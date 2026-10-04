@@ -91,7 +91,7 @@ class AutoPianoPlayer:
             return 0
 
         self.sleep_interruptibly(context, DEFAULT_COUNTDOWN)
-        bridge = MaaKeyboardBridge(mapping=mapping)
+        bridge = MaaKeyboardBridge(mapping=mapping, controller=context.tasker.controller)
         played = self.play_notes(
             context,
             playable_notes,

@@ -129,7 +129,8 @@ class Ear:
         try:
             import ctypes
 
-            ctypes.windll.ole32.CoInitialize(None)
+            if hasattr(ctypes, "windll"):
+                ctypes.windll.ole32.CoInitialize(None)
             rec = self._open_device()
             rec.__enter__()
 

@@ -43,6 +43,8 @@ def _parse_resize_params(raw_param):
         except (TypeError, json.JSONDecodeError) as exc:
             raise ValueError(f"invalid custom_action_param: {exc}") from exc
 
+    if params is None:
+        return DEFAULT_WIDTH, DEFAULT_HEIGHT
     if not isinstance(params, dict):
         raise ValueError("custom_action_param must be an object")
 
@@ -94,6 +96,19 @@ class ResizeGameWindow(CustomAction):
         except (TypeError, ValueError, json.JSONDecodeError) as exc:
             logger.warning("resize_game_window 参数解析失败: %s", exc)
             return CustomAction.RunResult(success=False)
+
+        if sys.platform.startswith("linux"):
+            # Gamescope 管理分辨率，不能通过 Win32 修改窗口；必须检查实际截图尺寸。
+            controller = context.tasker.controller
+            if not controller.post_screencap().wait().succeeded:
+                return CustomAction.RunResult(success=False)
+            actual_size = controller.resolution
+            success = actual_size == (width, height)
+            if not success:
+                logger.warning(
+                    "请调整 Gamescope 分辨率为 %sx%s，当前为 %s", width, height, actual_size
+                )
+            return CustomAction.RunResult(success=success)
 
         if ensure_game_window_resolution is None:
             logger.warning("resize_game_window 仅支持 Windows 或 win32_process 不可用")

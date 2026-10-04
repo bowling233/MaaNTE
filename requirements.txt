@@ -1,10 +1,12 @@
-maafw==v5.10.4
+maafw==v5.10.4; sys_platform != "linux"
+maafw==v5.14.2; sys_platform == "linux"
 loguru
 pillow
 pytz
 requests
 opencv-python
-onnxruntime-directml
+onnxruntime-directml; sys_platform == "win32"
+onnxruntime; sys_platform != "win32"
 librosa
 numpy
 scipy
@@ -12,5 +14,5 @@ scikit-learn
 soundcard
 mido
 scapy
-pktmon-interface
+pktmon-interface; sys_platform == "win32"
 websockets>=14.0,<17.0

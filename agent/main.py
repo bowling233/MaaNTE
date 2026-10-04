@@ -448,6 +448,10 @@ def _check_admin_privilege():
 
 def _check_game_resolution():
     """连接控制器后检测游戏窗口分辨率"""
+    if sys.platform != "win32":
+        logger.info("Linux 使用控制器截图尺寸；请将 Gamescope 和游戏均设为 1280x720。")
+        return
+
     from utils.win32_process import find_window_by_process, get_client_size
 
     hwnd = find_window_by_process("HTGame.exe")

@@ -13,7 +13,7 @@ import maa
 
 ROOT = Path(__file__).resolve().parents[2]
 # 首批仅开放无需物理键盘监听、Win32 鼠标位置查询及网络抓包的入口。
-TASK_NAMES = {"ClaimRewards", "MakeCoffeeLite", "Tetris", "Rhythm", "AutoPiano"}
+TASK_NAMES = {"StaminaFarm", "ClaimRewards", "MakeCoffeeLite", "Tetris", "Rhythm", "AutoPiano"}
 CONTROLLER_NAME = "Linux-Gamescope"
 
 

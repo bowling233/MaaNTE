@@ -45,6 +45,7 @@ Proton 所需的 `STEAM_COMPAT_DATA_PATH`、`STEAM_COMPAT_CLIENT_INSTALL_PATH` �
 ## 范围与已知限制
 
 - 已完成本机领奖和多轮平民咖啡；截图、点击、键盘、滚轮基础控制已验证。
+- 新增实验任务 `StaminaFarmEntrance`，用于胡迪尼经验/甲硬币资源本。默认仅花费 40 本性像素，具体前置条件、预算语义与未覆盖范围见 [资源本说明](../../docs/zh_cn/introduction/StaminaFarm.md)。本 fork 新功能暂时仅维护中文游戏界面。
 - 俄罗斯方块、音游、钢琴入口仅通过导入和控制器适配检查，未完成实机玩法验证。
 - 暂不开放依赖物理键盘监听、Win32 光标查询或 Windows 网络抓包的其他任务。
 - Linux 的窗口尺寸操作只校验截图分辨率，不模拟 Win32 调整窗口。
@@ -58,5 +59,7 @@ Proton 所需的 `STEAM_COMPAT_DATA_PATH`、`STEAM_COMPAT_CLIENT_INSTALL_PATH` �
 "$runtime/.venv/bin/python" tools/linux/test_platform.py
 git diff --check
 ```
+
+资源本预算和输入释放检查：`"$runtime/.venv/bin/python" tools/linux/test_stamina_farm.py`。单元测试不替代实机战斗验证。
 
 测试覆盖 Linux 导入、窗口尺寸验证、空参数处理及钢琴按键失败后的释放，不代表所有游戏任务已适配。

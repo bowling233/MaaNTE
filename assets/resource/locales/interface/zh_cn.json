@@ -298,5 +298,14 @@
     "task_pukaland_lucky_star_option_repeat_count_input": "次数",
     "task_pukaland_lucky_star_option_start_delay": "开始后等待时长（毫秒）",
     "task_pukaland_lucky_star_option_start_delay_desc": "点击「开始游戏」后等待多久再开始敲空格，用于跳过开场动画。",
-    "task_pukaland_lucky_star_option_start_delay_input": "毫秒"
+    "task_pukaland_lucky_star_option_start_delay_input": "毫秒",
+    "task_stamina_farm_label": "资源本刷取（实验）",
+    "task_stamina_farm_desc": "胡迪尼资源本：从开放世界或菜单开始，当前队伍需能独立清场。只领取单倍奖励，不补充本性像素。预算是本次运行上限，重启任务会重新计数。仅实测范围见文档。",
+    "task_stamina_farm_stage": "资源种类",
+    "task_stamina_farm_character_exp": "角色经验（合订本）",
+    "task_stamina_farm_weapon_exp": "弧盘经验（万花筒）",
+    "task_stamina_farm_currency": "甲硬币（硬币记）",
+    "task_stamina_farm_budget": "本次本性像素预算",
+    "task_stamina_farm_difficulty": "难度",
+    "task_stamina_farm_fighter": "主控角色站位"
 }

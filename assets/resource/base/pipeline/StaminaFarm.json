@@ -1,0 +1,904 @@
+{
+    "StaminaFarmEntrance": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "stamina_farm",
+                "custom_action_param": {
+                    "operation": "reset",
+                    "stage": "character_exp",
+                    "budget": 40,
+                    "difficulty": 6,
+                    "fighter_slot": 1
+                }
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmOpenGuide"
+        ]
+    },
+    "StaminaFarmOpenGuide": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmResourceTab",
+            "[JumpBack]SceneAnyEnterExplorationGuideMenu"
+        ]
+    },
+    "StaminaFarmResourceTab": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "InExplorationGuideMenu"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    55,
+                    337,
+                    30,
+                    30
+                ]
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmCategory"
+        ]
+    },
+    "StaminaFarmCategory": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "经验及甲硬币"
+                ],
+                "roi": [
+                    140,
+                    78,
+                    230,
+                    65
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": true
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmGuideGo"
+        ]
+    },
+    "StaminaFarmGuideGo": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "合订本"
+                ],
+                "roi": [
+                    530,
+                    170,
+                    210,
+                    80
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1110,
+                    187,
+                    115,
+                    44
+                ]
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmTeleport"
+        ]
+    },
+    "StaminaFarmMapTitle": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "胡迪尼的魔术舞台"
+                ],
+                "roi": [
+                    940,
+                    40,
+                    315,
+                    90
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0
+    },
+    "StaminaFarmTeleportButton": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "传送"
+                ],
+                "roi": [
+                    940,
+                    615,
+                    315,
+                    65
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0
+    },
+    "StaminaFarmTeleport": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "StaminaFarmTeleportButton",
+                    "StaminaFarmMapTitle"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": "StaminaFarmTeleportButton"
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmArrive"
+        ],
+        "timeout": 30000
+    },
+    "StaminaFarmArrive": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "InWorld"
+                ]
+            }
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "stamina_farm",
+                "custom_action_param": {
+                    "operation": "approach_entrance"
+                }
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmInteractEntrance"
+        ],
+        "timeout": 60000
+    },
+    "StaminaFarmEntrancePrompt": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "胡迪尼的魔术舞台"
+                ],
+                "roi": [
+                    735,
+                    310,
+                    430,
+                    200
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0
+    },
+    "StaminaFarmInteractEntrance": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "StaminaFarmEntrancePrompt"
+                ]
+            }
+        },
+        "action": {
+            "type": "ClickKey",
+            "param": {
+                "key": [
+                    70
+                ]
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmSelectStage"
+        ]
+    },
+    "StaminaFarmSelectStage": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "合订本"
+                ],
+                "roi": [
+                    10,
+                    80,
+                    195,
+                    245
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": true
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmDifficulty"
+        ]
+    },
+    "StaminaFarmStageTitle": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "合订本"
+                ],
+                "roi": [
+                    842,
+                    75,
+                    350,
+                    60
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0
+    },
+    "StaminaFarmDifficulty": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "StaminaFarmStageTitle"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    335,
+                    640,
+                    30,
+                    30
+                ]
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmEnter"
+        ],
+        "post_wait_freezes": {
+            "time": 350,
+            "target": [
+                850,
+                435,
+                330,
+                200
+            ],
+            "timeout": 3000
+        }
+    },
+    "StaminaFarmMenuBalance": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "^\\d+\\s*/\\s*320$"
+                ],
+                "roi": [
+                    1050,
+                    20,
+                    112,
+                    40
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0
+    },
+    "StaminaFarmEnterButton": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "进入"
+                ],
+                "roi": [
+                    865,
+                    630,
+                    315,
+                    50
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0
+    },
+    "StaminaFarmEnter": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "StaminaFarmEnterButton"
+                ]
+            }
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "stamina_farm",
+                "custom_action_param": {
+                    "operation": "enter"
+                }
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmCombat"
+        ]
+    },
+    "StaminaFarmEnemyCount": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "剩余敌人数"
+                ],
+                "roi": [
+                    10,
+                    165,
+                    230,
+                    85
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0
+    },
+    "StaminaFarmVictory": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "挑战成功"
+                ],
+                "roi": [
+                    450,
+                    110,
+                    365,
+                    110
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0
+    },
+    "StaminaFarmDefeat": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "挑战失败",
+                    "复苏",
+                    "复活"
+                ],
+                "roi": [
+                    300,
+                    140,
+                    690,
+                    500
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0
+    },
+    "StaminaFarmCombat": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "StaminaFarmEnemyCount"
+                ]
+            }
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "stamina_farm",
+                "custom_action_param": {
+                    "operation": "combat"
+                }
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmFindReward"
+        ],
+        "timeout": 60000
+    },
+    "StaminaFarmRewardPrompt": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "领取纪念品"
+                ],
+                "roi": [
+                    730,
+                    300,
+                    470,
+                    220
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0
+    },
+    "StaminaFarmRewardMarker": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    "StaminaFarm/RewardMarker0.png",
+                    "StaminaFarm/RewardMarker1.png",
+                    "StaminaFarm/RewardMarker2.png",
+                    "StaminaFarm/RewardMarker3.png"
+                ],
+                "roi": [
+                    130,
+                    160,
+                    1020,
+                    430
+                ],
+                "threshold": 0.72
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0
+    },
+    "StaminaFarmFindReward": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "stamina_farm",
+                "custom_action_param": {
+                    "operation": "approach_reward"
+                }
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmInteractReward"
+        ]
+    },
+    "StaminaFarmInteractReward": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "StaminaFarmRewardPrompt"
+                ]
+            }
+        },
+        "action": {
+            "type": "ClickKey",
+            "param": {
+                "key": [
+                    70
+                ]
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmClaim"
+        ]
+    },
+    "StaminaFarmClaimTitle": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "领取奖励"
+                ],
+                "roi": [
+                    490,
+                    220,
+                    290,
+                    75
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0
+    },
+    "StaminaFarmClaimButton": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "^领取$"
+                ],
+                "roi": [
+                    422,
+                    440,
+                    195,
+                    57
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0
+    },
+    "StaminaFarmCost40": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "^40$"
+                ],
+                "roi": [
+                    380,
+                    447,
+                    38,
+                    43
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0
+    },
+    "StaminaFarmClaim": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "StaminaFarmClaimTitle",
+                    "StaminaFarmClaimButton",
+                    "StaminaFarmCost40"
+                ]
+            }
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "stamina_farm",
+                "custom_action_param": {
+                    "operation": "claim"
+                }
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmAccount"
+        ]
+    },
+    "StaminaFarmResultTitle": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "获得道具"
+                ],
+                "roi": [
+                    475,
+                    140,
+                    320,
+                    85
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0
+    },
+    "StaminaFarmResultBalance": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "^\\d+\\s*/\\s*320$"
+                ],
+                "roi": [
+                    773,
+                    551,
+                    89,
+                    45
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0
+    },
+    "StaminaFarmRepeatButton": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "再次挑战"
+                ],
+                "roi": [
+                    700,
+                    599,
+                    187,
+                    45
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0
+    },
+    "StaminaFarmAccount": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "StaminaFarmResultTitle",
+                    "StaminaFarmRepeatButton"
+                ]
+            }
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "stamina_farm",
+                "custom_action_param": {
+                    "operation": "account"
+                }
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmExit"
+        ]
+    },
+    "StaminaFarmRepeat": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "StaminaFarmRepeatButton"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": "StaminaFarmRepeatButton"
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmCombat"
+        ]
+    },
+    "StaminaFarmExit": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "退出.*"
+                ],
+                "roi": [
+                    395,
+                    599,
+                    185,
+                    45
+                ],
+                "threshold": 0.65
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": true
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmWaitExit"
+        ]
+    },
+    "StaminaFarmWaitExit": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "InWorld"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "StaminaFarmFinish"
+        ],
+        "timeout": 60000
+    },
+    "StaminaFarmFinish": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "stamina_farm",
+                "custom_action_param": {
+                    "operation": "finish"
+                }
+            }
+        },
+        "rate_limit": 0,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": []
+    }
+}

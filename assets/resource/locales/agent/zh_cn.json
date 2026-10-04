@@ -104,5 +104,9 @@
     "bidking.failed": "[拍卖之王] 出价失败（%s）",
     "volleyball_weekly.started": "[自动排球（周常）] 任务开始",
     "volleyball_weekly.playing": "[自动排球（周常）] 比赛进行中",
-    "volleyball_weekly.teammates_selected": "[自动排球（周常）] 队友选择完成"
+    "volleyball_weekly.teammates_selected": "[自动排球（周常）] 队友选择完成",
+    "stamina_farm.started": "开始资源本：%s，本次本性像素预算 %d",
+    "stamina_farm.progress": "已确认 %d 轮，消耗 %d/%d 本性像素",
+    "stamina_farm.finished": "资源本任务结束，本次消耗 %d 本性像素",
+    "stamina_farm.failed": "资源本任务停止：%s"
 }
